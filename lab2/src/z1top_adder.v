@@ -17,8 +17,8 @@ module z1top_adder (
     assign LEDS[3:0] = adder_result;
     assign LEDS[5:4] = 0;
 
-    // Module instantation of the structural_adder logic   
-    structural_adder user_adder(
+    // Module instantation of the behavioral_adder logic   
+    behavioral_adder user_adder(
         .a(adder_operand1),
         .b(adder_operand2),
         .sum(adder_result)

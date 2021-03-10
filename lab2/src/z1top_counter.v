@@ -22,9 +22,16 @@ module z1top_counter (
     // is_one_sec is True every second (= how many cycles?)
     // You may use another register of keep track of the time
     // TODO: Correct the following assignment when you write your code
-    assign is_one_sec = 1'b0;
+    wire reset;
+
+    assign is_one_sec = reset;
+    
+    wire [26:0] value, next;
 
     // TODO: Instantiate a REIGISTER module for your second register/counter
     // You also need to think of how many bits are required for your register
+    REGISTER_R # (27) state (.q(value), .d(next), .rst(reset), .clk(CLK_125MHZ_FPGA));
+    assign next = value + 1;
+    assign reset = (value == 27'h7735840) ? 1'b1 : 1'b0;
 
 endmodule
