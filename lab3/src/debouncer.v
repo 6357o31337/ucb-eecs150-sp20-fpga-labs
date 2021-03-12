@@ -24,7 +24,10 @@ module debouncer #(
     wire wrapping_cnt_rst;
 
     REGISTER_R #(.N(WRAPPING_CNT_WIDTH)) wrapping_cnt(.q(wrapping_cnt_val), .d(wrapping_cnt_next), .rst(wrapping_cnt_rst), .clk(clk));
+    
+    // What I did
 
+    
     wire [SAT_CNT_WIDTH-1:0] sat_cnt_val[WIDTH-1:0];
     wire [SAT_CNT_WIDTH-1:0] sat_cnt_next[WIDTH-1:0];
     wire sat_cnt_rst[WIDTH-1:0];
@@ -36,11 +39,20 @@ module debouncer #(
             REGISTER_R_CE #(.N(SAT_CNT_WIDTH)) sat_cnt (.q(sat_cnt_val[i]), .d(sat_cnt_next[i]), .rst(sat_cnt_rst[i]), .ce(sat_cnt_ce[i]), .clk(clk));
         end
     endgenerate
-
+    
     genvar j;
     generate
         for (j = 0; j < WIDTH; j = j + 1) begin
             assign debounced_signal[j] = (sat_cnt_val[j] == PULSE_CNT_MAX);
+        end
+    endgenerate
+
+    // What I did    
+    genvar k;
+    generate
+        for (k = 0; k < WIDTH; k = k + 1) begin
+            // 2-to-1 MUX
+            assign sat_cnt_next[k] = (sat_cnt_val[k] == PULSE_CNT_MAX) ? sat_cnt_val[k] : sat_cnt_next[k];
         end
     endgenerate
 

@@ -11,8 +11,15 @@ module synchronizer #(parameter WIDTH = 1) (
 	    // and should output a vector of WIDTH-bit synchronous signals
       // that are synchronized to the input clk
 
-	    // Remove this line once you create your synchronizer
-	    assign sync_signal = 0;
+	wire [WIDTH-1:0] w;
+    genvar i;
+    
+    generate
+        for (i=0; i<WIDTH; i=i+1) begin
+            REGISTER r0 (.q(w[0]), .d(async_signal[i]), .clk(clk));
+            REGISTER r1 (.q(sync_signal[i]), .d(w[0]), .clk(clk));
+        end
+    endgenerate
 
 
 endmodule
