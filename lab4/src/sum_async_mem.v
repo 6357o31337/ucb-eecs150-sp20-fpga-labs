@@ -31,7 +31,8 @@ module sum_async_mem #(
     assign rom_addr = index_reg_val;
     assign index_reg_next = index_reg_val + 1;
     assign index_reg_rst = reset;
-    assign done = (index_reg_val == (size - 1));
+    //assign done = (index_reg_val == (size - 1));
+    assign done = (index_reg_val == size);
     not (index_reg_ce, done);
 
     wire [31:0] sum_reg_val, sum_reg_next;
