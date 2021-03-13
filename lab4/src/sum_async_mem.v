@@ -36,7 +36,7 @@ module sum_async_mem #(
     REGISTER_R_CE #(.N(32)) sum_reg (.q(sum_reg_val), .d(sum_reg_next), .ce(sum_reg_ce), .rst(sum_reg_rst), .clk(clk));
 
     // What I did
-    assign sum = sum_reg_val;
+    //assign sum = sum_reg_val;
     assign sum_reg_next = sum_reg_val + rom_rdata;
 
 endmodule
