@@ -22,10 +22,17 @@ module debouncer #(
     wire [WRAPPING_CNT_WIDTH-1:0] wrapping_cnt_val;
     wire [WRAPPING_CNT_WIDTH-1:0] wrapping_cnt_next;
     wire wrapping_cnt_rst;
+ 
+    // What I did
+    wire sample_signal;
 
     REGISTER_R #(.N(WRAPPING_CNT_WIDTH)) wrapping_cnt(.q(wrapping_cnt_val), .d(wrapping_cnt_next), .rst(wrapping_cnt_rst), .clk(clk));
     
     // What I did
+    assign sample_signal = (wrapping_cnt_val == SAMPLE_CNT_MAX);
+    assign wrapping_cnt_rst = sample_signal;
+    assign wrapping_cnt_next = wrapping_cnt_val + 1;
+    
 
     
     wire [SAT_CNT_WIDTH-1:0] sat_cnt_val[WIDTH-1:0];
@@ -52,7 +59,9 @@ module debouncer #(
             // What I did    
             // 2-to-1 MUX
             assign sat_cnt_next[i] = (sat_cnt_val[i] == PULSE_CNT_MAX) ? sat_cnt_val[i] : sat_cnt_next[i];
+            //
             assign sat_cnt_val_plus_one[i] = sat_cnt_val[i] + 1;
+            
         end
     endgenerate
 
