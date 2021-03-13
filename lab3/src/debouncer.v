@@ -58,9 +58,15 @@ module debouncer #(
 
             // What I did    
             // 2-to-1 MUX
-            assign sat_cnt_next[i] = (sat_cnt_val[i] == PULSE_CNT_MAX) ? sat_cnt_val[i] : sat_cnt_next[i];
+            assign sat_cnt_next[j] = (sat_cnt_val[j] == PULSE_CNT_MAX) ? sat_cnt_val[j] : sat_cnt_next[j];
             //
-            assign sat_cnt_val_plus_one[i] = sat_cnt_val[i] + 1;
+            assign sat_cnt_val_plus_one[j] = sat_cnt_val[j] + 1;
+            //
+            not (sat_cnt_rst[j], glitchy_signal[j]);
+            //assign sat_cnt_rst[j] = ~glitchy_signal[j];
+            //
+            and (sat_cnt_ce[j], glitchy_signal[j], sample_signal);
+            //assign sat_cnt_ce[j] = 
             
         end
     endgenerate
