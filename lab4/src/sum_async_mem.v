@@ -27,8 +27,16 @@ module sum_async_mem #(
     wire index_reg_rst, index_reg_ce;
     REGISTER_R_CE #(.N(32)) index_reg (.q(index_reg_val), .d(index_reg_next), .ce(index_reg_ce), .rst(index_reg_rst), .clk(clk));
 
+    // What I did
+    assign rom_addr = index_reg_val;
+    assign index_reg_next = index_reg_val + 1;
+
     wire [31:0] sum_reg_val, sum_reg_next;
     wire sum_reg_rst, sum_reg_ce;
     REGISTER_R_CE #(.N(32)) sum_reg (.q(sum_reg_val), .d(sum_reg_next), .ce(sum_reg_ce), .rst(sum_reg_rst), .clk(clk));
+
+    // What I did
+    assign sum = sum_reg_val;
+    assign sum_reg_next = sum_reg_val + rom_rdata;
 
 endmodule
