@@ -29,6 +29,10 @@ module debouncer #(
 
     
     wire [SAT_CNT_WIDTH-1:0] sat_cnt_val[WIDTH-1:0];
+    
+    // What I did
+    wire [SAT_CNT_WIDTH-1:0] sat_cnt_val_plus_one[WIDTH-1:0];
+    
     wire [SAT_CNT_WIDTH-1:0] sat_cnt_next[WIDTH-1:0];
     wire sat_cnt_rst[WIDTH-1:0];
     wire sat_cnt_ce[WIDTH-1:0];
@@ -44,9 +48,15 @@ module debouncer #(
     generate
         for (j = 0; j < WIDTH; j = j + 1) begin
             assign debounced_signal[j] = (sat_cnt_val[j] == PULSE_CNT_MAX);
+
+            // What I did    
+            // 2-to-1 MUX
+            assign sat_cnt_next[i] = (sat_cnt_val[i] == PULSE_CNT_MAX) ? sat_cnt_val[i] : sat_cnt_next[i];
+            assign sat_cnt_val_plus_one[i] = sat_cnt_val[i] + 1;
         end
     endgenerate
 
+    /*
     // What I did    
     genvar k;
     generate
@@ -55,5 +65,6 @@ module debouncer #(
             assign sat_cnt_next[k] = (sat_cnt_val[k] == PULSE_CNT_MAX) ? sat_cnt_val[k] : sat_cnt_next[k];
         end
     endgenerate
+    */
 
 endmodule
