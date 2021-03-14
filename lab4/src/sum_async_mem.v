@@ -34,7 +34,8 @@ module sum_async_mem #(
     //assign done = (index_reg_val == (size - 1));
     assign done = (index_reg_val == size);
     //not (index_reg_ce, done);
-    assign index_reg_ce = (index_reg_val < size);
+    //assign index_reg_ce = (index_reg_val < size);
+    assign index_reg_ce = (index_reg_val != (size - 1));
 
     wire [31:0] sum_reg_val, sum_reg_next;
     wire sum_reg_rst, sum_reg_ce;
